@@ -1,0 +1,6 @@
+# robots.txt for Finzaro - Smart Expense Tracker
+# Allow all major search engines to index the main pages
+
+User-agent: *
+Allow: /
+

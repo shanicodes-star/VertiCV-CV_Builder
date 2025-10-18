@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VertiCV Resume-Builder</title>
+
+    <!-- Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <link rel="shortcut icon" href="LOGO.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="nav card" role="navigation" aria-label="Top nav">
+            <div class="brand">
+                <div class="logo">Verti</div>
+                <div>
+                    <div style="font-weight:700">VertiCV Resume-Builder</div>
+                    <div class="small">Stable · Soft Theme · Job-ready</div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center">
+                <button class="btn" id="generateTop">Download PDF</button>
+                <button class="btn ghost" id="resetTop">Reset</button>
+            </div>
+        </div>
+
+        <div class="intro">
+            <div>
+                <h2 style="margin:0">VertiCV Resume-Builder</h2>
+                <div class="small">VertiCV is a next-generation, browser-based resume and CV builder designed to help professionals, students, and job seekers create stunning, job-ready resumes within minutes.</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- LEFT: FORM / Controls -->
+            <div>
+                <div class="card" aria-label="CV form">
+                    <form id="cvForm" onsubmit="return false;">
+                        <div class="row">
+                            <div class="col">
+                                <label>Full name</label>
+                                <input id="name" type="text" placeholder="Sher Khan">
+                            </div>
+                            <div class="col">
+                                <label>Job Title</label>
+                                <input id="job" type="text" placeholder="Front-end Developer">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label>Email</label>
+                                <input id="email" type="email" placeholder="you@example.com">
+                            </div>
+                            <div class="col">
+                                <label>Phone</label>
+                                <input id="phone" type="tel" placeholder="+92 3xx xxx xxxx">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label>Location</label>
+                                <input id="location" type="text" placeholder="Karachi, Pakistan">
+                            </div>
+                            <div class="col">
+                                <label>Preference</label>
+                                <input id="preference" type="text"
+                                    placeholder="Remote / On-site / Hybrid — Preferred roles">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label>Profile (About) — short</label>
+                            <textarea id="about"
+                                placeholder="2-3 line professional summary — strengths, experience & goals."></textarea>
+                        </div>
+
+                        <div class="gap8"></div>
+
+                        <div>
+                            <label>Objective (short)</label>
+                            <input id="objective" type="text" placeholder="Concise objective for recruiters">
+                        </div>
+
+                        <div class="gap8"></div>
+
+                        <div>
+                            <label>Education (brief)</label>
+                            <textarea id="education"
+                                placeholder="e.g. B.Sc Computer Science — Univ XYZ (2019-2023)"></textarea>
+                        </div>
+
+                        <div class="gap8"></div>
+
+                        <div>
+                            <label>Experience / Projects (detailed)</label>
+                            <textarea id="experience"
+                                placeholder="Use multiple lines: Job Title — Company — Dates — short responsibilities"></textarea>
+                        </div>
+
+                        <div class="gap8"></div>
+
+                        <div>
+                            <label>Certifications (comma separated)</label>
+                            <input id="certifications" type="text"
+                                placeholder="e.g. AWS Certified Developer, Scrum Master">
+                        </div>
+
+                        <div class="gap8"></div>
+
+                        <div>
+                            <label>Languages (comma separated)</label>
+                            <input id="languages" type="text" placeholder="e.g. English, Urdu, Sindhi">
+                        </div>
+
+                        <div class="gap8"></div>
+
+                        <div>
+                            <label>Skills (comma separated)</label>
+                            <input id="skills" type="text" placeholder="HTML, CSS, JavaScript, React">
+                        </div>
+
+                        <div style="height:12px"></div>
+
+                        <!-- Photo chooser -->
+                        <div class="photo-chooser">
+                            <div style="flex:1">
+                                <label style="display:block">Profile photo</label>
+                                <label for="photoInput" class="choose-btn" title="Click to choose photo">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 5v14M5 12h14" stroke="#111827" stroke-width="1.6"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <span class="small">Choose Photo</span>
+                                </label>
+                                <input id="photoInput" type="file" accept="image/*">
+                                <div class="small" style="margin-top:6px">Optional — square/portrait work best.</div>
+                            </div>
+
+                            <div>
+                                <img id="photoPreview" class="photo-preview" src="" alt="Preview">
+                            </div>
+                        </div>
+
+                        <div style="height:12px"></div>
+
+                        <!-- Gradients & background picker -->
+                        <div>
+                            <label>Background presets (soft pastels)</label>
+                            <div class="grad-grid" id="gradients">
+                                <div class="grad" data-c1="#f3e8ff" data-c2="#c7e9ff" title="Lavender → Sky Blue"
+                                    style="background:linear-gradient(135deg,#f3e8ff,#c7e9ff)"></div>
+                                <div class="grad" data-c1="#ffe6d5" data-c2="#ffd6e0" title="Peach → Light Pink"
+                                    style="background:linear-gradient(135deg,#ffe6d5,#ffd6e0)"></div>
+                                <div class="grad" data-c1="#e6fff5" data-c2="#d6fbff" title="Mint → Aqua"
+                                    style="background:linear-gradient(135deg,#e6fff5,#d6fbff)"></div>
+                                <div class="grad" data-c1="#f0e9ff" data-c2="#ffeef2" title="Lilac → Soft Rose"
+                                    style="background:linear-gradient(135deg,#f0e9ff,#ffeef2)"></div>
+                                <div class="grad" data-c1="#fffaf0" data-c2="#fff1cc" title="Cream → Light Gold"
+                                    style="background:linear-gradient(135deg,#fffaf0,#fff1cc)"></div>
+                                <div class="grad selected" data-c1="#f8fbff" data-c2="#e9e6ff" data-is-white="0"
+                                    title="Ice Blue → Baby Purple"
+                                    style="background:linear-gradient(135deg,#f8fbff,#e9e6ff)"></div>
+                                <!-- explicit White / No gradient option -->
+                                <div class="grad" data-c1="#ffffff" data-c2="#ffffff" data-is-white="1"
+                                    title="White / No gradient"
+                                    style="background:linear-gradient(135deg,#ffffff,#ffffff);border:1px solid #e6e9ef">
+                                </div>
+                            </div>
+
+                            <div style="display:flex;gap:10px;margin-top:10px;align-items:center">
+                                <div style="flex:1">
+                                    <label>Background color (custom) — active when No-Gradient selected</label>
+                                    <input id="backgroundPicker" type="color" value="#ffffff"
+                                        style="height:44px;border-radius:10px;padding:4px">
+                                </div>
+                                <div style="flex:1">
+                                    <label>Accent color (headings)</label>
+                                    <input id="accentPicker" type="color" value="#5b6cff"
+                                        style="height:44px;border-radius:10px;padding:4px">
+                                </div>
+                                <div style="flex:1">
+                                    <label>Secondary color (preview text)</label>
+                                    <input id="secondaryPicker" type="color" value="#6b7280"
+                                        style="height:44px;border-radius:10px;padding:4px">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="height:12px"></div>
+
+                        <!-- Social links -->
+                        <div>
+                            <label>Social Links (optional)</label>
+                            <div style="margin-bottom:8px"><input id="linkedin" type="text"
+                                    placeholder="LinkedIn URL (optional)"></div>
+                            <div style="margin-bottom:8px"><input id="github" type="text"
+                                    placeholder="GitHub URL (optional)"></div>
+                            <div style="margin-bottom:8px"><input id="portfolio" type="text"
+                                    placeholder="Portfolio / Website URL (optional)"></div>
+                        </div>
+
+                        <div style="height:12px"></div>
+
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <div class="small">Preview updates live on the right →</div>
+                            <div style="display:flex;gap:8px">
+                                <button type="button" class="btn" id="generate">Generate PDF</button>
+                                <button type="button" class="btn ghost" id="resetBtn">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <footer class="site-foot card small" style="margin-top:12px">Tips: Keep Profile & Objective concise. Use
+                    comma-separated lists. Social links optional.</footer>
+            </div>
+
+            <!-- RIGHT: PREVIEW (Main CV content) -->
+            <div>
+                <div class="card preview-wrap" aria-live="polite">
+                    <div id="paper" class="paper">
+                        <div id="paperInner" class="paper-inner">
+                            <div id="cv" class="cv-grid">
+                                <!-- LEFT SIDEBAR inside CV -->
+                                <div class="cv-left" aria-label="CV sidebar">
+                                    <img id="p_photo" class="cv-photo" src="" alt="Profile photo">
+
+                                    <div>
+                                        <h2 id="p_name" class="name">Your Name</h2>
+                                        <div id="p_role" class="role">Front End Developer • Location</div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3>Contact</h3>
+                                        <div id="p_contact" class="muted">email • phone</div>
+                                        <div id="p_social" class="muted" style="margin-top:6px"></div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3>Skills</h3>
+                                        <div id="p_skills" class="skills">
+                                            <div class="chip">Communication</div>
+                                            <div class="chip">Problem Solving</div>
+                                            <div class="chip">HTML</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- RIGHT MAIN CONTENT inside CV -->
+                                <div class="cv-right" aria-label="CV main content">
+                                    <!-- order per spec: Profile, Objective, Education, Experience, Certifications, Languages, Preference -->
+                                    <div class="section">
+                                        <h3>Profile</h3>
+                                        <div id="p_about" class="muted">Short about/summary will appear here. Mention
+                                            strengths & goals.</div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3>Objective</h3>
+                                        <div id="p_objective" class="muted">A motivated professional looking to
+                                            contribute skills and grow in a dynamic environment.</div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3>Education</h3>
+                                        <div id="p_education" class="muted">Education details will appear here.</div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3>Experience / Projects</h3>
+                                        <div id="p_experience" class="muted">Short descriptions of roles or projects.
+                                        </div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3>Certifications</h3>
+                                        <div id="p_certifications" class="muted">List certifications here.</div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3>Languages</h3>
+                                        <div id="p_languages" class="muted">Languages will appear here.</div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3>Preference</h3>
+                                        <div id="p_preference" class="muted">Preferred work style / role.</div>
+                                    </div>
+
+                                    <div style="height:24px"></div>
+                                    <div class="muted watermark" style="text-align:center">Generated with CVCraft —
+                                        professional CV</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="small" style="text-align:center;margin-top:12px">© <span id="year"></span> ShaniCodes-Star VertiCV || Resume-Builder
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
